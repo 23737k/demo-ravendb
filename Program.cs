@@ -7,25 +7,27 @@ class Program
     {
         var store = new DocumentStore
         {
-            Urls = new[] { "http://localhost:8080" },
+            Urls = new[] { "http://127.0.0.1:8080", "http://127.0.0.2:8080" },
             Database = "testing"
         }.Initialize();
 
+
         using (var session = store.OpenSession())
         {
-            // Método 1: Eliminar por objeto cargado
-            var estudiante = session.Load<Estudiante>("estudiantes/1-A");
-            session.Delete(estudiante);
+            //--------------------------------------------------------------------------------------------------
 
-            // Método 2: Eliminar directamente por ID
-            session.Delete("estudiantes/2-A");
-            session.SaveChanges();
+
+
+
+            //--------------------------------------------------------------------------------------------------
+
         }
     }
 }
 
 internal class Estudiante
 {
+    public string Id { get; set; }
     public string Nombre { get; set; }
     public int Edad { get; set; }
     public string Carrera { get; set; }
@@ -34,15 +36,54 @@ internal class Estudiante
 
 
 
-/*
-                       var estudiante = new Estudiante
-                       {
-                           Nombre = "María González",
-                           Edad = 22,
-                           Carrera = "Ingeniería en Sistemas",
-                           Materias = new[] { "Base de Datos", "Algoritmos", "Redes" }
-                       };
 
-                       session.Store(estudiante);
-                       session.SaveChanges();
-           */
+
+/*
+
+CREATE
+
+            var estudiante = new Estudiante
+            {
+                Id = "estudiantes/1-C",
+                Nombre = "María González",
+                Edad = 22,
+                Carrera = "Ingeniería en Sistemas",
+                Materias = new[] { "Base de Datos", "Algoritmos", "Redes" }
+            };
+
+            session.Store(estudiante);
+            session.SaveChanges();
+*/
+
+/*
+
+READ
+
+CON LOAD:
+
+
+            var estudiante = session.Load<Estudiante>("estudiantes/1-C");
+            if(estudiante != null){
+                Console.WriteLine($"Estudiante: {estudiante.Nombre}");
+            }
+
+*/
+
+/*
+    UPDATE
+            var estudiante = session.Load<Estudiante>("estudiantes/1-C");
+            estudiante.Edad = 23;
+            estudiante.Materias = estudiante.Materias.Concat(new[] { "Inteligencia Artificial" }).ToArray();
+
+            session.SaveChanges();
+
+
+*/
+
+
+/*
+    DELETE
+
+            var estudiante = session.Load<Estudiante>("estudiantes/1-C");
+            session.SaveChanges();
+*/
